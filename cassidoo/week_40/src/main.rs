@@ -4,25 +4,23 @@ fn main() {
     println!("Hello, world!");
 }
 
-fn solve(input: &str, separator: char) -> Vec<String> {
-    let mut results: Vec<String> = vec![];
+fn solve(input: &str, separator: char) -> Vec<&str> {
+    let mut results: Vec<&str> = vec![];
 
-    let mut buf: Vec<char> = vec![];
+    let mut begin = 0;
 
-    for c in input.chars() {
+    for (i, c) in input.char_indices() {
         if c == separator {
-            let a: String = buf.iter().collect();
-            results.push(a);
-            buf = vec![];
-        } else {
-            buf.push(c);
+            results.push(&input[begin..i]);
+            begin = i + 1;
         }
     }
 
-    if !buf.is_empty() {
-        let a: String = buf.iter().collect();
-        results.push(a);
+    if begin != input.len() {
+        results.push(&input[begin..]);
     }
+
+    eprintln!("begin: {}; input.len(): {}", begin, input.len());
 
     results
 }
@@ -37,6 +35,7 @@ mod tests {
         let tests = vec![
             (' ', vec!["This", "is", "so,", "so", "silly"]),
             (',', vec!["This is so", " so silly"]),
+            ('y', vec!["This is so, so sill"]),
         ];
 
         for (separator, expected) in tests {
