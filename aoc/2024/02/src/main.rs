@@ -2,7 +2,7 @@ const INPUT: &str = include_str!("../input.txt");
 
 fn main() {
     println!("Day 2a: {}", solve_a(INPUT));
-    // println!("Day 2b: {}", solve_b(INPUT));
+    println!("Day 2b: {}", solve_b(INPUT));
 }
 
 fn solve_a(input: &str) -> usize {
@@ -30,8 +30,27 @@ fn parse_input(input: &str) -> Vec<Vec<isize>> {
         .collect()
 }
 
-fn solve_b(input: &str) -> isize {
-    todo!()
+fn solve_b(input: &str) -> usize {
+    let input = parse_input(input);
+
+    input
+        .into_iter()
+        .filter(|a| {
+            for i in 0..a.len() {
+                let input: Vec<_> = a
+                    .iter()
+                    .enumerate()
+                    .filter_map(|(idx, val)| if idx == i { None } else { Some(val) })
+                    .copied()
+                    .collect();
+                if is_gradual(&input) {
+                    return true;
+                }
+            }
+
+            return false;
+        })
+        .count()
 }
 
 #[cfg(test)]
@@ -46,9 +65,9 @@ mod tests {
         assert_eq!(result, 2);
     }
 
-    // #[test]
-    // fn example_b() {
-    //     let result = solve_b(EXAMPLE_INPUT);
-    //     assert_eq!(result, 31);
-    // }
+    #[test]
+    fn example_b() {
+        let result = solve_b(EXAMPLE_INPUT);
+        assert_eq!(result, 4);
+    }
 }
