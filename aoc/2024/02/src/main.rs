@@ -32,8 +32,7 @@ where
 
         // Make sure that the difference is 1,2,3
         let current_diff_abs = current_diff.abs();
-        if current_diff_abs > 0 && current_diff_abs <= 3 {
-        } else {
+        if !(current_diff_abs > 0 && current_diff_abs <= 3) {
             return false;
         }
 
