@@ -9,21 +9,46 @@ fn solve_a(input: &str) -> usize {
     let input = parse_input(input);
 
     input
-        .into_iter()
-        .filter(|report| is_gradual(report))
+        .iter()
+        .filter(|report| is_gradual(report.iter()))
         .count()
 }
 
-fn is_gradual(input: &[isize]) -> bool {
-    let diffs: Vec<_> = input.windows(2).map(|a| a[1] - a[0]).collect();
+fn is_gradual<'a, T>(report: T) -> bool
+where
+    T: Iterator<Item = &'a isize>,
+{
+    let mut previous_diff: Option<isize> = None;
+    let mut previous_level: Option<&isize> = None;
 
-    let sign_all_same = diffs.iter().all(|&diff| diff > 0) || diffs.iter().all(|&diff| diff < 0);
+    for current_level in report {
+        let current_diff = match previous_level {
+            Some(prev_level) => prev_level - current_level,
+            None => {
+                previous_level = Some(current_level);
+                continue;
+            }
+        };
 
-    if !sign_all_same {
-        return false;
+        // Make sure that the difference is 1,2,3
+        let current_diff_abs = current_diff.abs();
+        if current_diff_abs > 0 && current_diff_abs <= 3 {
+        } else {
+            return false;
+        }
+
+        // Make sure that the sign has not changed
+        if let Some(prev_diff) = previous_diff {
+            if (current_diff < 0) != (prev_diff < 0) {
+                return false;
+            }
+        }
+
+        previous_diff = Some(current_diff);
+        previous_level = Some(current_level);
     }
 
-    diffs.iter().all(|&diff| diff.abs() > 0 && diff.abs() <= 3)
+    true
 }
 
 fn parse_input(input: &str) -> Vec<Vec<isize>> {
@@ -40,13 +65,11 @@ fn solve_b(input: &str) -> usize {
         .into_iter()
         .filter(|a| {
             for i in 0..a.len() {
-                let input: Vec<_> = a
-                    .iter()
-                    .enumerate()
-                    .filter_map(|(idx, val)| if idx == i { None } else { Some(val) })
-                    .copied()
-                    .collect();
-                if is_gradual(&input) {
+                let input =
+                    a.iter()
+                        .enumerate()
+                        .filter_map(|(idx, val)| if idx == i { None } else { Some(val) });
+                if is_gradual(input) {
                     return true;
                 }
             }
