@@ -8,10 +8,13 @@ fn main() {
 fn solve_a(input: &str) -> usize {
     let input = parse_input(input);
 
-    input.into_iter().filter(is_gradual).count()
+    input
+        .into_iter()
+        .filter(|report| is_gradual(report))
+        .count()
 }
 
-fn is_gradual(input: &Vec<isize>) -> bool {
+fn is_gradual(input: &[isize]) -> bool {
     let diffs: Vec<_> = input.windows(2).map(|a| a[1] - a[0]).collect();
 
     let sign_all_same = diffs.iter().all(|&diff| diff > 0) || diffs.iter().all(|&diff| diff < 0);
@@ -48,7 +51,7 @@ fn solve_b(input: &str) -> usize {
                 }
             }
 
-            return false;
+            false
         })
         .count()
 }
