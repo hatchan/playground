@@ -147,22 +147,67 @@ fn calc_options(numbers: &DiceThrow) -> Vec<Options> {
         options.push(Options::FullHouse);
     }
 
-    // Large straight
-    let is_large_straight = grouped[0..=4].iter().filter(|count| **count > 0).count() == 5
-        || grouped[1..=5].iter().filter(|count| **count > 0).count() == 5;
+    // let mut is_small_straight = false;
+    // let mut is_large_straight = false;
 
-    if is_large_straight {
-        options.push(Options::LargeStraight);
-    }
-    // Small straight (if it is a lane straight, then it also is a small straight)
-    let is_small_straight = is_large_straight
-        || grouped[0..=3].iter().filter(|count| **count > 0).count() == 4
-        || grouped[1..=4].iter().filter(|count| **count > 0).count() == 4
-        || grouped[2..=5].iter().filter(|count| **count > 0).count() == 4;
+    let (_, is_small_straight, is_large_straight) =
+        grouped.iter().fold((0, false, false), |mut acc, count| {
+            if *count > 0 {
+                acc.0 += 1;
+            } else {
+                acc.0 = 0;
+            }
+
+            if acc.0 >= 4 {
+                acc.1 = true;
+            }
+            if acc.0 >= 5 {
+                acc.2 = true;
+            }
+
+            acc
+        });
+
+    // let mut continuous = 0;
+    // for num in grouped {
+    //     if num > 0 {
+    //         continuous += 1;
+    //     } else {
+    //         continuous = 0;
+    //     }
+
+    //     if continuous >= 4 {
+    //         is_small_straight = true;
+    //     }
+    //     if continuous >= 5 {
+    //         is_large_straight = true;
+    //     }
+    // }
 
     if is_small_straight {
         options.push(Options::SmallStraight);
     }
+
+    if is_large_straight {
+        options.push(Options::LargeStraight);
+    }
+
+    // // Large straight
+    // let is_large_straight = grouped[0..=4].iter().filter(|count| **count > 0).count() == 5
+    //     || grouped[1..=5].iter().filter(|count| **count > 0).count() == 5;
+
+    // if is_large_straight {
+    //     options.push(Options::LargeStraight);
+    // }
+    // // Small straight (if it is a lane straight, then it also is a small straight)
+    // let is_small_straight = is_large_straight
+    //     || grouped[0..=3].iter().filter(|count| **count > 0).count() == 4
+    //     || grouped[1..=4].iter().filter(|count| **count > 0).count() == 4
+    //     || grouped[2..=5].iter().filter(|count| **count > 0).count() == 4;
+
+    // if is_small_straight {
+    //     options.push(Options::SmallStraight);
+    // }
 
     options
 }
