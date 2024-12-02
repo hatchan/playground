@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-const INPUT: &'static str = include_str!("../input.txt");
+const INPUT: &str = include_str!("../input.txt");
 
 fn main() {
     println!("Day 1a: {}", solve_a(INPUT));
@@ -13,13 +13,10 @@ fn solve_a(input: &str) -> usize {
     left.sort_unstable();
     right.sort_unstable();
 
-    let result = left
-        .into_iter()
+    left.into_iter()
         .zip(right)
         .map(|(left, right)| left.abs_diff(right))
-        .sum();
-
-    result
+        .sum()
 }
 
 fn parse_a(input: &str) -> (Vec<usize>, Vec<usize>) {
@@ -64,7 +61,7 @@ fn parse_b(input: &str) -> (Vec<usize>, HashMap<usize, usize>) {
 mod tests {
     use super::*;
 
-    const EXAMPLE_INPUT: &'static str = include_str!("../example.txt");
+    const EXAMPLE_INPUT: &str = include_str!("../example.txt");
 
     #[test]
     fn example_a() {
