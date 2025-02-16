@@ -5,4 +5,13 @@ edition = "2021"
 
 [lib]
 
+[[bin]]
+name = "shabe"
+path = "src/main.rs"
+
 [dependencies]
+anyhow = "1.0.95"
+axum = { version = "0.8.1", features = ["http2", "ws"] }
+clap = { version = "4.5", features = ["derive", "env"] }
+tokio = { version = "1.43.0", features = ["macros", "rt", "rt-multi-thread"] }
+tracing = "0.1.41"

@@ -14,6 +14,7 @@ TODO
   - [ ] Realtime communication (websockets)
   - [ ] API management
   - [ ] Horizontal scaling WebSockets
+  - [ ] OpenAPI (maybe using utoipa?)
 - [ ] API Client
 - [ ] CLI
   - [ ] TUI (ratatui)
@@ -32,10 +33,12 @@ TODO
   - [ ] Bazel build (?)
 - [ ] OAuth authentication
 - [ ] Unified config file
-
-
+- [ ] Unified models (single definition for all targets)
+  - [ ] [`nutypes`](https://github.com/greyblake/nutype) (?)
 
 ## Architecture
+
+TODO
 
 ## License
 
