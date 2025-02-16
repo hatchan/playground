@@ -1,8 +1,8 @@
-# しゃべ shabe
+# しゃべ shaberu
 
-喋る (しゃべる) means "to talk" or "to speak" in Japanese. This repository
-contains a server and client for a simple chat application. It is intended as a
-learning exercise for myself.
+喋る (しゃべる, shaberu) means "to talk" or "to speak" in Japanese. This
+repository contains a server and client for a simple chat application. It is
+intended as a learning exercise for myself.
 
 ## Usage
 
